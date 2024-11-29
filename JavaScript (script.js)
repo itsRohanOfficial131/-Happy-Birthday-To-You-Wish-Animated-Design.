@@ -1,0 +1,47 @@
+const canvas = document.getElementById('birthdayCanvas');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+class Letter {
+    constructor(char, x, y) {
+        this.char = char;
+        this.x = x;
+        this.y = y;
+        this.dx = 0;
+        this.dy = 0;
+        this.fireworkDy = this.y - 100;
+        this.color = hsl(${Math.random() * 360}, 100%, 50%);
+        this.phase = 'firework';
+    }
+
+    draw() {
+        ctx.font = '50px Arial';
+        ctx.fillStyle = this.color;
+        ctx.fillText(this.char, this.x, this.y);
+    }
+}
+
+const message = "HAPPY BIRTHDAY to You";
+const letters = [];
+
+function init() {
+    const centerX = canvas.width / 2;
+    const startX = centerX - (message.length * 30) / 2;
+    for (let i = 0; i < message.length; i++) {
+        const letter = new Letter(message[i], startX + i * 30, canvas.height / 2);
+        letters.push(letter);
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    letters.forEach(letter => {
+        letter.draw();
+    });
+    requestAnimationFrame(animate);
+}
+
+init();
+animate();
